@@ -55,12 +55,19 @@ def base_label(level,weight,character):
 
 ## Main importing function
 
+def list2dict(L,keys):
+    dic = {}
+    for j in range(len(keys)):
+        dic[keys[j]] = L[j]
+    return dic
+
 def do_import(ll):
     level,weight,character,dim,dimtheta,thetas,newpart  = ll
     mykeys = ['level', 'weight', 'character', 'dim', 'dimtheta', 'thetas', 'newpart']
-    data = {}
-    for j in range(len(mykeys)):
-        data[mykeys[j]] = ll[j]
+    data = list2dict(ll,mykeys)
+    newpartkeys = ['mf_label', 'nf_label', 'dim_image', "half_forms"]
+    for j in range(len(data['newpart'])):
+        data['newpart'][j] = list2dict(data['newpart'][j], newpartkeys)
     label = base_label(data['level'],data['weight'],data['character'])
     data['label'] = label
     form = forms.find_one({'label': label})
